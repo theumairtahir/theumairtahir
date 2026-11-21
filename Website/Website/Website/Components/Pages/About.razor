@@ -1,0 +1,88 @@
+@page "/about"
+
+<PageTitle>About - @SiteContent.Name</PageTitle>
+<HeadContent>
+    <meta name="description" content="I’m Umair Tahir, a senior software developer working with .NET, Blazor and Azure." />
+</HeadContent>
+
+<PageContainer Class="sl:mt-16 sl:sm:mt-32">
+    <div class="sl:grid sl:grid-cols-1 sl:gap-y-16 sl:lg:grid-cols-2 sl:lg:grid-rows-[auto_1fr] sl:lg:gap-y-12">
+        <div class="sl:lg:pl-20">
+            <div class="sl:max-w-xs sl:px-2.5 sl:lg:max-w-none">
+                @* Stand-in for a portrait: replace with an <img> once you have a photo. *@
+                <div class="sl:flex sl:aspect-square sl:rotate-3 sl:items-center sl:justify-center sl:rounded-2xl sl:bg-linear-to-br sl:from-teal-500/25 sl:via-zinc-100 sl:to-zinc-100 sl:dark:via-zinc-800 sl:dark:to-zinc-800">
+                    <span class="sl:text-8xl sl:font-bold sl:tracking-tight sl:text-zinc-800 sl:dark:text-zinc-100">UT</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="sl:lg:order-first sl:lg:row-span-2">
+            <h1 class="sl:text-4xl sl:font-bold sl:tracking-tight sl:text-zinc-800 sl:sm:text-5xl sl:dark:text-zinc-100">
+                I’m Umair Tahir. I build software that teams can keep running.
+            </h1>
+            <div class="sl:mt-6 sl:space-y-7 sl:text-base sl:text-zinc-600 sl:dark:text-zinc-400">
+                <p>
+                    I started writing C# on desktop apps and reporting tools, where I learned that the code people
+                    depend on is rarely the code anyone is proud of. Most of my career since has been about closing
+                    that gap: software that is pleasant to change and boring to operate.
+                </p>
+                <p>
+                    Today I’m a senior software developer at NimbleLoop Technologies. I lead engineering on
+                    Marksheet+, a multi-tenant school management platform built on .NET, Blazor WebAssembly, Azure
+                    Functions and Service Bus. We organize it as vertical slices, so a feature lives in one place
+                    and a change stays where it was made.
+                </p>
+                <p>
+                    Along the way I got tired of copying the same Tailwind markup between projects, so I helped
+                    turn it into TailwindUi.Blazor: more than a hundred typed Razor components with semantic
+                    theming and dark mode. This site is built with it.
+                </p>
+                <p>
+                    I care about clear boundaries, fast feedback and code review that teaches. Outside work I
+                    mentor developers who are early in their careers, and I write about what I learn so that I
+                    remember it.
+                </p>
+            </div>
+
+            <div class="sl:mt-10">
+                <h2 class="sl:text-sm sl:font-semibold sl:text-zinc-800 sl:dark:text-zinc-100">What I work with</h2>
+                <div class="sl:mt-4 sl:flex sl:flex-wrap sl:gap-2">
+                    @foreach (var skill in Skills)
+                    {
+                        <Badge Text="@skill" Shape="Shape.Pill" />
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="sl:lg:pl-20">
+            <ul role="list">
+                @foreach (var (social, index) in SiteContent.Socials.Select((social, index) => (social, index)))
+                {
+                    <li class="sl:flex @(index > 0 ? "sl:mt-4" : null)">
+                        <a href="@social.Url" target="_blank" rel="noopener noreferrer"
+                           class="sl:group sl:flex sl:text-sm sl:font-medium sl:text-zinc-800 sl:transition sl:hover:text-teal-500 sl:dark:text-zinc-200 sl:dark:hover:text-teal-500">
+                            <SocialIcon Network="@social.Network" Class="sl:h-6 sl:w-6 sl:flex-none sl:text-zinc-500 sl:transition sl:group-hover:text-teal-500" />
+                            <span class="sl:ml-4">@social.Label</span>
+                        </a>
+                    </li>
+                }
+                <li class="sl:mt-8 sl:flex sl:border-t sl:border-zinc-100 sl:pt-8 sl:dark:border-zinc-700/40">
+                    <a href="@($"mailto:{SiteContent.Email}")"
+                       class="sl:group sl:flex sl:text-sm sl:font-medium sl:text-zinc-800 sl:transition sl:hover:text-teal-500 sl:dark:text-zinc-200 sl:dark:hover:text-teal-500">
+                        <Icon Name="envelope" Variant="IconVariant.Solid" class="sl:flex-none sl:text-zinc-500 sl:transition sl:group-hover:text-teal-500" />
+                        <span class="sl:ml-4">@SiteContent.Email</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</PageContainer>
+
+@code {
+    private static readonly string[] Skills =
+    [
+        "C#", ".NET 10", "ASP.NET Core", "Blazor", "Azure Functions", "Service Bus", "SignalR",
+        "EF Core", "SQL Server", "MongoDB", "Tailwind CSS", "Vertical slice architecture", "Multi-tenancy",
+    ];
+}

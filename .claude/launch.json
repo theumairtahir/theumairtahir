@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "website",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--project", "Website/Website/Website/Website.csproj", "--launch-profile", "http"],
+      "port": 5218
+    }
+  ]
+}

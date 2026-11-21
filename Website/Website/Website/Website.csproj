@@ -10,6 +10,42 @@
   <ItemGroup>
     <ProjectReference Include="..\Website.Client\Website.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.15" />
+    <!-- contentFiles are excluded: the package's CSS is copied into wwwroot by CopyTailwindUiCss below. -->
+    <PackageReference Include="TailwindUi.Blazor" Version="2026.10.27.41" GeneratePathProperty="true" ExcludeAssets="contentFiles" />
   </ItemGroup>
+
+  <!-- npm files are build tooling, not site content. -->
+  <ItemGroup>
+    <Content Remove="package.json;package-lock.json" />
+    <None Include="package.json;package-lock.json" />
+    <TailwindInput Include="Styles\**\*.css;Components\**\*.razor" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TailwindUiCssSource>$(PkgTailwindUi_Blazor)\content\wwwroot\css\tailwindui.css</TailwindUiCssSource>
+    <TailwindUiCssTarget>wwwroot\css\tailwindui.css</TailwindUiCssTarget>
+  </PropertyGroup>
+
+  <!--
+    The library ships its precompiled Tailwind bundle as a NuGet content file, which the static
+    web assets pipeline serves as an empty response. Copy it into wwwroot so it is a normal asset.
+  -->
+  <Target Name="CopyTailwindUiCss" BeforeTargets="BeforeBuild" Inputs="$(TailwindUiCssSource)" Outputs="$(TailwindUiCssTarget)">
+    <Copy SourceFiles="$(TailwindUiCssSource)" DestinationFiles="$(TailwindUiCssTarget)" />
+  </Target>
+
+  <!--
+    Compiles Styles/app.css (Tailwind v4) to wwwroot/css/app.css for the site's own markup.
+    The TailwindUi.Blazor components are covered by the library's bundle above.
+    Skip with -p:SkipTailwindBuild=true (the compiled CSS is committed).
+  -->
+  <Target Name="NpmInstall" BeforeTargets="BuildTailwind" Condition="'$(SkipTailwindBuild)' != 'true' And !Exists('node_modules')">
+    <Exec Command="npm install --no-audit --no-fund" />
+  </Target>
+
+  <Target Name="BuildTailwind" BeforeTargets="BeforeBuild" Condition="'$(SkipTailwindBuild)' != 'true'" Inputs="@(TailwindInput)" Outputs="wwwroot\css\app.css">
+    <Exec Command="npm run build:css" />
+    <Touch Files="wwwroot\css\app.css" />
+  </Target>
 
 </Project>

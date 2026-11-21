@@ -1,0 +1,17 @@
+@* A page with a large title, an intro paragraph and a body. *@
+<PageContainer Class="sl:mt-16 sl:sm:mt-32">
+    <header class="sl:max-w-2xl">
+        <h1 class="sl:text-4xl sl:font-bold sl:tracking-tight sl:text-zinc-800 sl:sm:text-5xl sl:dark:text-zinc-100">@Title</h1>
+        <p class="sl:mt-6 sl:text-base sl:text-zinc-600 sl:dark:text-zinc-400">@Intro</p>
+    </header>
+    @if (ChildContent is not null)
+    {
+        <div class="sl:mt-16 sl:sm:mt-20">@ChildContent</div>
+    }
+</PageContainer>
+
+@code {
+    [Parameter, EditorRequired] public string Title { get; set; } = "";
+    [Parameter, EditorRequired] public string Intro { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

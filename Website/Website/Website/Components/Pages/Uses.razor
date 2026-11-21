@@ -1,0 +1,25 @@
+@page "/uses"
+
+<PageTitle>Uses - @SiteContent.Name</PageTitle>
+<HeadContent>
+    <meta name="description" content="The hardware, tools and stack I use every day." />
+</HeadContent>
+
+<SimplePage Title="The hardware, tools and stack I use every day."
+            Intro="I get asked what I use to build software often enough that a list is easier than an answer. Here is the current one.">
+    <div class="sl:space-y-20">
+        @foreach (var group in SiteContent.Uses)
+        {
+            <PageSection Title="@group.Title">
+                <ul role="list" class="sl:space-y-16">
+                    @foreach (var tool in group.Tools)
+                    {
+                        <li>
+                            <EntryCard Title="@tool.Name" Description="@tool.Description" />
+                        </li>
+                    }
+                </ul>
+            </PageSection>
+        }
+    </div>
+</SimplePage>

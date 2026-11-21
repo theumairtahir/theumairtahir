@@ -1,6 +1,21 @@
-﻿@inherits LayoutComponentBase
+@inherits LayoutComponentBase
 
-@Body
+<div class="sl:flex sl:w-full">
+    @* The centered page column that sits on the tinted body. *@
+    <div class="sl:fixed sl:inset-0 sl:flex sl:justify-center sl:sm:px-8">
+        <div class="sl:flex sl:w-full sl:max-w-7xl sl:lg:px-8">
+            <div class="sl:w-full sl:bg-white sl:ring-1 sl:ring-zinc-100 sl:dark:bg-zinc-900 sl:dark:ring-zinc-300/20"></div>
+        </div>
+    </div>
+
+    <div class="sl:relative sl:flex sl:w-full sl:flex-col">
+        <SiteHeader />
+        <main class="sl:flex-auto">
+            @Body
+        </main>
+        <SiteFooter />
+    </div>
+</div>
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.

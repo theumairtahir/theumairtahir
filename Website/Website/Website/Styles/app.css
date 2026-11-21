@@ -1,0 +1,92 @@
+/*
+  Tailwind v4 source for the site's own markup (the Spotlight layout).
+
+  TailwindUi.Blazor components are styled by the library's precompiled bundle, which App.razor
+  links before this file. Two Tailwind bundles that share class names fight over source order
+  (a later `.bg-white` beats an earlier `dark:bg-white/10`), so every utility written in this
+  project carries the `sl:` prefix: `sl:flex`, `sl:dark:bg-zinc-900`, `sl:group-hover:opacity-100`.
+  Unprefixed classes belong to the library. Preflight comes from the library bundle.
+*/
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme) prefix(sl);
+@import "tailwindcss/utilities.css" layer(utilities) prefix(sl);
+
+@plugin "@tailwindcss/typography";
+
+@source "../Components";
+
+/* Same class-based dark mode the library uses: `.dark` on <html>. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Spotlight's type scale. */
+@theme {
+  --text-xs: 0.8125rem;
+  --text-xs--line-height: 1.5rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.5rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.75rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 2rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 2.25rem;
+  --text-4xl: 2rem;
+  --text-4xl--line-height: 2.5rem;
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 3.5rem;
+}
+
+/*
+  Re-skin the library: its Primary slot becomes Spotlight's teal accent, so Button,
+  Badge and Avatar match the hand-written teal-* utilities. The neutral "Dark" slot
+  is already zinc, the same ramp Spotlight uses.
+*/
+:root {
+  --tw-color-primary-50: oklch(98.4% 0.014 180.72);
+  --tw-color-primary-100: oklch(95.3% 0.051 180.801);
+  --tw-color-primary-200: oklch(91% 0.096 180.426);
+  --tw-color-primary-300: oklch(85.5% 0.138 181.071);
+  --tw-color-primary-400: oklch(77.7% 0.152 181.912);
+  --tw-color-primary-500: oklch(70.4% 0.14 182.503);
+  --tw-color-primary-600: oklch(60% 0.118 184.704);
+  --tw-color-primary-700: oklch(51.1% 0.096 186.391);
+  --tw-color-primary-800: oklch(43.7% 0.078 188.216);
+  --tw-color-primary-900: oklch(38.6% 0.063 188.416);
+  --tw-color-primary-950: oklch(27.7% 0.046 192.524);
+}
+
+/* Teal 500 is a light fill in dark mode, so it carries a dark label. */
+.dark {
+  --tw-color-primary-on-dark-fill: var(--tw-color-dark-950);
+  --tw-color-primary-dark-fill-hover: var(--tw-color-primary-300);
+}
+
+/* Blazor's error bar: hidden until the framework shows it. */
+#blazor-error-ui {
+  display: none;
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 1000;
+  padding: 0.6rem 1.25rem;
+  background: lightyellow;
+  color: #18181b;
+  box-shadow: 0 -1px 2px rgb(0 0 0 / 0.2);
+}
+
+#blazor-error-ui .dismiss {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.5rem;
+  cursor: pointer;
+}
+
+/* FocusOnNavigate moves focus to the page heading for screen readers; it needs no visible ring. */
+h1:focus {
+  outline: none;
+}

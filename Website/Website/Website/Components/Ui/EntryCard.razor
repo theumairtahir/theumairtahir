@@ -1,0 +1,47 @@
+@* Spotlight's hover card: title, optional eyebrow, description and call to action. The whole card is the link. *@
+<article class="sl:group sl:relative sl:flex sl:flex-col sl:items-start @Class">
+    <h3 class="sl:text-base sl:font-semibold sl:tracking-tight sl:text-zinc-800 sl:dark:text-zinc-100">
+        @if (Href is not null)
+        {
+            <div class="sl:absolute sl:-inset-x-4 sl:-inset-y-6 sl:z-0 sl:scale-95 sl:bg-zinc-50 sl:opacity-0 sl:transition sl:group-hover:scale-100 sl:group-hover:opacity-100 sl:sm:-inset-x-6 sl:sm:rounded-2xl sl:dark:bg-zinc-800/50"></div>
+            <a href="@Href">
+                <span class="sl:absolute sl:-inset-x-4 sl:-inset-y-6 sl:z-20 sl:sm:-inset-x-6 sl:sm:rounded-2xl"></span>
+                <span class="sl:relative sl:z-10">@Title</span>
+            </a>
+        }
+        else
+        {
+            @Title
+        }
+    </h3>
+    @if (Eyebrow is not null)
+    {
+        <p class="sl:relative sl:z-10 sl:order-first sl:mb-3 sl:flex sl:items-center sl:text-sm sl:text-zinc-400 sl:dark:text-zinc-500 @(DecorateEyebrow ? "sl:pl-3.5" : null)">
+            @if (DecorateEyebrow)
+            {
+                <span class="sl:absolute sl:inset-y-0 sl:left-0 sl:flex sl:items-center" aria-hidden="true">
+                    <span class="sl:h-4 sl:w-0.5 sl:rounded-full sl:bg-zinc-200 sl:dark:bg-zinc-500"></span>
+                </span>
+            }
+            @Eyebrow
+        </p>
+    }
+    <p class="sl:relative sl:z-10 sl:mt-2 sl:text-sm sl:text-zinc-600 sl:dark:text-zinc-400">@Description</p>
+    @if (Cta is not null)
+    {
+        <div aria-hidden="true" class="sl:relative sl:z-10 sl:mt-4 sl:flex sl:items-center sl:text-sm sl:font-medium sl:text-teal-500">
+            @Cta
+            <Icon Name="chevron-right" Variant="IconVariant.Micro" Size="size-4" class="sl:ml-1" />
+        </div>
+    }
+</article>
+
+@code {
+    [Parameter, EditorRequired] public string Title { get; set; } = "";
+    [Parameter, EditorRequired] public string Description { get; set; } = "";
+    [Parameter] public string? Href { get; set; }
+    [Parameter] public string? Eyebrow { get; set; }
+    [Parameter] public bool DecorateEyebrow { get; set; }
+    [Parameter] public string? Cta { get; set; }
+    [Parameter] public string? Class { get; set; }
+}

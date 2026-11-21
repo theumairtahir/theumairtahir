@@ -1,7 +1,106 @@
-﻿@page "/"
+@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>@SiteContent.Name - @SiteContent.JobTitle</PageTitle>
+<HeadContent>
+    <meta name="description" content="@SiteContent.Intro" />
+</HeadContent>
 
-<h1>Hello, world!</h1>
+<PageContainer Class="sl:mt-9">
+    <div class="sl:max-w-2xl">
+        <Avatar Initials="@SiteContent.Name" InitialsBackground="ThemeColor.Primary" Hero="true" />
+        <h1 class="sl:mt-6 sl:text-4xl sl:font-bold sl:tracking-tight sl:text-zinc-800 sl:sm:text-5xl sl:dark:text-zinc-100">
+            @SiteContent.Headline
+        </h1>
+        <p class="sl:mt-6 sl:text-base sl:text-zinc-600 sl:dark:text-zinc-400">@SiteContent.Intro</p>
+        <div class="sl:mt-6 sl:flex sl:gap-6">
+            @foreach (var social in SiteContent.Socials)
+            {
+                <a href="@social.Url" aria-label="@social.Label" target="_blank" rel="noopener noreferrer" class="sl:group sl:-m-1 sl:p-1">
+                    <SocialIcon Network="@social.Network" Class="sl:h-6 sl:w-6 sl:text-zinc-500 sl:transition sl:group-hover:text-zinc-600 sl:dark:text-zinc-400 sl:dark:group-hover:text-zinc-300" />
+                </a>
+            }
+        </div>
+    </div>
+</PageContainer>
 
-Welcome to your new app.
+@* Spotlight's tilted photo strip, with career highlights standing in for photos. *@
+<div class="sl:mt-16 sl:sm:mt-20">
+    <div class="sl:-my-4 sl:flex sl:justify-center sl:gap-5 sl:overflow-hidden sl:py-4 sl:sm:gap-8">
+        @foreach (var (highlight, index) in SiteContent.Highlights.Select((highlight, index) => (highlight, index)))
+        {
+            <div class="sl:relative sl:w-44 sl:flex-none sl:overflow-hidden sl:rounded-xl sl:bg-zinc-100 sl:sm:w-72 sl:sm:rounded-2xl sl:dark:bg-zinc-800 @Tilts[index % Tilts.Length]">
+                <div class="sl:flex sl:aspect-9/10 sl:flex-col sl:justify-end sl:bg-linear-to-br sl:from-teal-500/15 sl:via-transparent sl:to-transparent sl:p-5 sl:sm:p-8">
+                    <p class="sl:text-3xl sl:font-bold sl:tracking-tight sl:text-zinc-800 sl:sm:text-5xl sl:dark:text-zinc-100">@highlight.Value</p>
+                    <p class="sl:mt-2 sl:text-sm sl:text-zinc-600 sl:dark:text-zinc-400">@highlight.Label</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<PageContainer Class="sl:mt-24 sl:md:mt-28">
+    <div class="sl:mx-auto sl:grid sl:max-w-xl sl:grid-cols-1 sl:gap-y-20 sl:lg:max-w-none sl:lg:grid-cols-2">
+        <div class="sl:flex sl:flex-col sl:gap-16">
+            @foreach (var article in SiteContent.Articles)
+            {
+                <EntryCard Title="@article.Title"
+                           Href="@($"/articles/{article.Slug}")"
+                           Eyebrow="@article.Date.ToString("MMMM d, yyyy")"
+                           DecorateEyebrow="true"
+                           Description="@article.Description"
+                           Cta="Read article" />
+            }
+        </div>
+
+        <div class="sl:space-y-10 sl:lg:pl-16 sl:xl:pl-24">
+            <div class="sl:rounded-2xl sl:border sl:border-zinc-100 sl:p-6 sl:dark:border-zinc-700/40">
+                <h2 class="sl:flex sl:text-sm sl:font-semibold sl:text-zinc-900 sl:dark:text-zinc-100">
+                    <Icon Name="envelope" class="sl:flex-none sl:text-zinc-400 sl:dark:text-zinc-500" />
+                    <span class="sl:ml-3">Work with me</span>
+                </h2>
+                <p class="sl:mt-2 sl:text-sm sl:text-zinc-600 sl:dark:text-zinc-400">
+                    I take on a small number of consulting engagements each year: architecture reviews, Blazor migrations and team mentoring.
+                </p>
+                <div class="sl:mt-6 sl:flex sl:items-center sl:gap-4">
+                    <Button Href="@($"mailto:{SiteContent.Email}")" Text="Get in touch" />
+                    <Badge Dot="true" Color="ThemeColor.Success" Shape="Shape.Pill" Text="Available" />
+                </div>
+            </div>
+
+            <div class="sl:rounded-2xl sl:border sl:border-zinc-100 sl:p-6 sl:dark:border-zinc-700/40">
+                <h2 class="sl:flex sl:text-sm sl:font-semibold sl:text-zinc-900 sl:dark:text-zinc-100">
+                    <Icon Name="briefcase" class="sl:flex-none sl:text-zinc-400 sl:dark:text-zinc-500" />
+                    <span class="sl:ml-3">Work</span>
+                </h2>
+                <ol class="sl:mt-6 sl:space-y-4">
+                    @foreach (var role in SiteContent.Work)
+                    {
+                        <li class="sl:flex sl:gap-4">
+                            <div class="sl:relative sl:mt-1 sl:flex sl:h-10 sl:w-10 sl:flex-none sl:items-center sl:justify-center sl:rounded-full sl:text-sm sl:font-semibold sl:text-teal-600 sl:shadow-md sl:ring-1 sl:shadow-zinc-800/5 sl:ring-zinc-900/5 sl:dark:border sl:dark:border-zinc-700/50 sl:dark:bg-zinc-800 sl:dark:text-teal-400 sl:dark:ring-0">
+                                @role.Initial
+                            </div>
+                            <dl class="sl:flex sl:flex-auto sl:flex-wrap sl:gap-x-2">
+                                <dt class="sl:sr-only">Company</dt>
+                                <dd class="sl:w-full sl:flex-none sl:text-sm sl:font-medium sl:text-zinc-900 sl:dark:text-zinc-100">@role.Company</dd>
+                                <dt class="sl:sr-only">Role</dt>
+                                <dd class="sl:text-xs sl:text-zinc-500 sl:dark:text-zinc-400">@role.Title</dd>
+                                <dt class="sl:sr-only">Date</dt>
+                                <dd class="sl:ml-auto sl:text-xs sl:text-zinc-400 sl:dark:text-zinc-500" aria-label="@role.Start until @role.End">
+                                    @role.Start <span aria-hidden="true">—</span> @role.End
+                                </dd>
+                            </dl>
+                        </li>
+                    }
+                </ol>
+                <Button Href="@SiteContent.CvUrl" Variant="ButtonVariant.Secondary" FullWidth="true" class="sl:mt-6">
+                    <ChildContent>Download CV</ChildContent>
+                    <TrailingIcon><Icon Name="arrow-down" Variant="IconVariant.Micro" Size="size-4" /></TrailingIcon>
+                </Button>
+            </div>
+        </div>
+    </div>
+</PageContainer>
+
+@code {
+    private static readonly string[] Tilts = ["sl:rotate-2", "sl:-rotate-2", "sl:rotate-2", "sl:rotate-2", "sl:-rotate-2"];
+}

@@ -1,0 +1,23 @@
+<footer class="sl:mt-32 sl:flex-none">
+    <div class="sl:sm:px-8">
+        <div class="sl:mx-auto sl:w-full sl:max-w-7xl sl:lg:px-8">
+            <div class="sl:border-t sl:border-zinc-100 sl:pt-10 sl:pb-16 sl:dark:border-zinc-700/40">
+                <div class="sl:relative sl:px-4 sl:sm:px-8 sl:lg:px-12">
+                    <div class="sl:mx-auto sl:max-w-2xl sl:lg:max-w-5xl">
+                        <div class="sl:flex sl:flex-col sl:items-center sl:justify-between sl:gap-6 sl:md:flex-row">
+                            <div class="sl:flex sl:flex-wrap sl:justify-center sl:gap-x-6 sl:gap-y-1 sl:text-sm sl:font-medium sl:text-zinc-800 sl:dark:text-zinc-200">
+                                @foreach (var link in SiteNav.Links)
+                                {
+                                    <a href="@link.Href" class="sl:transition sl:hover:text-teal-500 sl:dark:hover:text-teal-400">@link.Label</a>
+                                }
+                            </div>
+                            <p class="sl:text-sm sl:text-zinc-400 sl:dark:text-zinc-500">
+                                &copy; @DateTime.UtcNow.Year @SiteContent.Name. All rights reserved.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

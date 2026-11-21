@@ -1,0 +1,27 @@
+@page "/speaking"
+
+<PageTitle>Speaking - @SiteContent.Name</PageTitle>
+<HeadContent>
+    <meta name="description" content="Conference talks and podcast conversations about .NET and Blazor." />
+</HeadContent>
+
+<SimplePage Title="Talks and conversations about building with .NET."
+            Intro="I enjoy explaining things to a room almost as much as building them. These are the talks and podcast episodes where I’ve had the chance to do that.">
+    <div class="sl:space-y-20">
+        @foreach (var group in SiteContent.Speaking)
+        {
+            <PageSection Title="@group.Title">
+                <div class="sl:space-y-16">
+                    @foreach (var talk in group.Talks)
+                    {
+                        <EntryCard Title="@talk.Title"
+                                   Href="@talk.Url"
+                                   Eyebrow="@talk.Event"
+                                   Description="@talk.Description"
+                                   Cta="@talk.Cta" />
+                    }
+                </div>
+            </PageSection>
+        }
+    </div>
+</SimplePage>

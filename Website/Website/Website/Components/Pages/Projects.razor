@@ -1,0 +1,38 @@
+@page "/projects"
+
+<PageTitle>Projects - @SiteContent.Name</PageTitle>
+<HeadContent>
+    <meta name="description" content="Products, libraries and tools I’ve built." />
+</HeadContent>
+
+<SimplePage Title="Things I’ve built that are still running."
+            Intro="I’ve worked on a lot of software over the years. These are the projects I’m proudest of: some are products, some are open source, and a few are tools I wrote because I needed them twice.">
+    <ul role="list" class="sl:grid sl:grid-cols-1 sl:gap-x-12 sl:gap-y-16 sl:sm:grid-cols-2 sl:lg:grid-cols-3">
+        @foreach (var project in SiteContent.Projects)
+        {
+            <li class="sl:group sl:relative sl:flex sl:flex-col sl:items-start">
+                <div class="sl:relative sl:z-10 sl:flex sl:h-12 sl:w-12 sl:items-center sl:justify-center sl:rounded-full sl:bg-white sl:text-teal-500 sl:shadow-md sl:ring-1 sl:shadow-zinc-800/5 sl:ring-zinc-900/5 sl:dark:border sl:dark:border-zinc-700/50 sl:dark:bg-zinc-800 sl:dark:text-teal-400 sl:dark:ring-0">
+                    <Icon Name="@project.Icon" />
+                </div>
+                <h2 class="sl:mt-6 sl:text-base sl:font-semibold sl:text-zinc-800 sl:dark:text-zinc-100">
+                    <div class="sl:absolute sl:-inset-x-4 sl:-inset-y-6 sl:z-0 sl:scale-95 sl:bg-zinc-50 sl:opacity-0 sl:transition sl:group-hover:scale-100 sl:group-hover:opacity-100 sl:sm:-inset-x-6 sl:sm:rounded-2xl sl:dark:bg-zinc-800/50"></div>
+                    <a href="@project.Url">
+                        <span class="sl:absolute sl:-inset-x-4 sl:-inset-y-6 sl:z-20 sl:sm:-inset-x-6 sl:sm:rounded-2xl"></span>
+                        <span class="sl:relative sl:z-10">@project.Name</span>
+                    </a>
+                </h2>
+                <p class="sl:relative sl:z-10 sl:mt-2 sl:text-sm sl:text-zinc-600 sl:dark:text-zinc-400">@project.Description</p>
+                <div class="sl:relative sl:z-10 sl:mt-4 sl:flex sl:flex-wrap sl:gap-2">
+                    @foreach (var tech in project.Stack)
+                    {
+                        <Badge Text="@tech" Shape="Shape.Pill" Size="Size.Small" />
+                    }
+                </div>
+                <p class="sl:relative sl:z-10 sl:mt-6 sl:flex sl:text-sm sl:font-medium sl:text-zinc-400 sl:transition sl:group-hover:text-teal-500 sl:dark:text-zinc-200">
+                    <Icon Name="link" Variant="IconVariant.Mini" class="sl:flex-none" />
+                    <span class="sl:ml-2">@project.LinkLabel</span>
+                </p>
+            </li>
+        }
+    </ul>
+</SimplePage>

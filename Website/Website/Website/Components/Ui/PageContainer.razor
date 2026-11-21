@@ -1,0 +1,15 @@
+@* Spotlight's page gutter: a 7xl outer column with a narrower reading column inside it. *@
+<div class="sl:sm:px-8 @Class">
+    <div class="sl:mx-auto sl:w-full sl:max-w-7xl sl:lg:px-8">
+        <div class="sl:relative sl:px-4 sl:sm:px-8 sl:lg:px-12">
+            <div class="sl:mx-auto sl:max-w-2xl sl:lg:max-w-5xl">
+                @ChildContent
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

@@ -1,0 +1,52 @@
+@page "/articles/{Slug}"
+@inject NavigationManager Navigation
+
+@if (_article is not null)
+{
+    <PageTitle>@_article.Title - @SiteContent.Name</PageTitle>
+    <HeadContent>
+        <meta name="description" content="@_article.Description" />
+    </HeadContent>
+
+    <PageContainer Class="sl:mt-16 sl:lg:mt-32">
+        <div class="sl:xl:relative">
+            <div class="sl:mx-auto sl:max-w-2xl">
+                <a href="/articles" aria-label="Go back to articles"
+                   class="sl:group sl:mb-8 sl:flex sl:h-10 sl:w-10 sl:items-center sl:justify-center sl:rounded-full sl:bg-white sl:shadow-md sl:ring-1 sl:shadow-zinc-800/5 sl:ring-zinc-900/5 sl:transition sl:lg:absolute sl:lg:-left-5 sl:lg:-mt-2 sl:lg:mb-0 sl:xl:-top-1.5 sl:xl:left-0 sl:xl:mt-0 sl:dark:border sl:dark:border-zinc-700/50 sl:dark:bg-zinc-800 sl:dark:ring-0 sl:dark:ring-white/10 sl:dark:hover:border-zinc-700 sl:dark:hover:ring-white/20">
+                    <Icon Name="arrow-left" Variant="IconVariant.Micro" Size="size-4" class="sl:text-zinc-500 sl:transition sl:group-hover:text-zinc-700 sl:dark:text-zinc-500 sl:dark:group-hover:text-zinc-400" />
+                </a>
+                <article>
+                    <header class="sl:flex sl:flex-col">
+                        <h1 class="sl:mt-6 sl:text-4xl sl:font-bold sl:tracking-tight sl:text-zinc-800 sl:sm:text-5xl sl:dark:text-zinc-100">
+                            @_article.Title
+                        </h1>
+                        <time datetime="@_article.Date.ToString("yyyy-MM-dd")"
+                              class="sl:order-first sl:flex sl:items-center sl:text-base sl:text-zinc-400 sl:dark:text-zinc-500">
+                            <span class="sl:h-4 sl:w-0.5 sl:rounded-full sl:bg-zinc-200 sl:dark:bg-zinc-500"></span>
+                            <span class="sl:ml-3">@_article.Date.ToString("MMMM d, yyyy")</span>
+                        </time>
+                    </header>
+                    <div class="sl:prose sl:prose-zinc sl:mt-8 sl:dark:prose-invert sl:prose-a:text-teal-500">
+                        <p class="lead">@_article.Description</p>
+                        @((MarkupString)_article.BodyHtml)
+                    </div>
+                </article>
+            </div>
+        </div>
+    </PageContainer>
+}
+
+@code {
+    private Article? _article;
+
+    [Parameter] public string Slug { get; set; } = "";
+
+    protected override void OnParametersSet()
+    {
+        _article = SiteContent.FindArticle(Slug);
+        if (_article is null)
+        {
+            Navigation.NotFound();
+        }
+    }
+}

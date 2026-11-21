@@ -1,0 +1,12 @@
+@* A titled group with a left rule, used on Speaking and Uses. *@
+<section class="sl:md:border-l sl:md:border-zinc-100 sl:md:pl-6 sl:md:dark:border-zinc-700/40">
+    <div class="sl:grid sl:max-w-3xl sl:grid-cols-1 sl:items-baseline sl:gap-y-8 sl:md:grid-cols-4">
+        <h2 class="sl:text-sm sl:font-semibold sl:text-zinc-800 sl:dark:text-zinc-100">@Title</h2>
+        <div class="sl:md:col-span-3">@ChildContent</div>
+    </div>
+</section>
+
+@code {
+    [Parameter, EditorRequired] public string Title { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

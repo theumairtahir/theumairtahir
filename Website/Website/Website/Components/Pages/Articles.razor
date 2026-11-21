@@ -1,0 +1,31 @@
+@page "/articles"
+
+<PageTitle>Articles - @SiteContent.Name</PageTitle>
+<HeadContent>
+    <meta name="description" content="Writing on .NET architecture, Blazor and running software in production." />
+</HeadContent>
+
+<SimplePage Title="Writing on .NET architecture, Blazor, and running software in production."
+            Intro="Longer-form notes on the things I keep explaining in code review, collected in chronological order.">
+    <div class="sl:md:border-l sl:md:border-zinc-100 sl:md:pl-6 sl:md:dark:border-zinc-700/40">
+        <div class="sl:flex sl:max-w-3xl sl:flex-col sl:space-y-16">
+            @foreach (var article in SiteContent.Articles)
+            {
+                var date = article.Date.ToString("MMMM d, yyyy");
+                <div class="sl:md:grid sl:md:grid-cols-4 sl:md:items-baseline">
+                    <EntryCard Class="sl:md:col-span-3"
+                               Title="@article.Title"
+                               Href="@($"/articles/{article.Slug}")"
+                               Eyebrow="@date"
+                               DecorateEyebrow="true"
+                               Description="@article.Description"
+                               Cta="Read article" />
+                    <time datetime="@article.Date.ToString("yyyy-MM-dd")"
+                          class="sl:relative sl:z-10 sl:order-first sl:mt-1 sl:mb-3 sl:flex sl:items-center sl:text-sm sl:text-zinc-400 sl:max-md:hidden sl:dark:text-zinc-500">
+                        @date
+                    </time>
+                </div>
+            }
+        </div>
+    </div>
+</SimplePage>
